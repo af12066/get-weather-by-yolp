@@ -27,16 +27,19 @@ class yolp():
                 + '&output=xml'
         return uri
 
+    def findText(self, root, xpath):
+        '''XPathから要素中のテキストを取得'''
+        for string in root.findall(xpath):
+            print(string.tag)
+            print(string.text)
+
     def getXML(self, tag):
         '''URLをGETして天気に関するXMLを取得'''
         res = requests.get(self.generateURL())
         root = ET.fromstring(res.text)
         # XPathにはXMLの名前空間を含める必要あり
         xpath = './/{http://olp.yahooapis.jp/ydf/1.0}' + tag
-
-        for string in root.findall(xpath):
-            print(string.tag)
-            print(string.text)
+        self.findText(root, xpath)
         return root
 
     def main(self):
