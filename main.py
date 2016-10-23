@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import requests
+import xml.etree.ElementTree as ET
 
 
 class yolp():
@@ -26,14 +27,22 @@ class yolp():
                 + '&output=xml'
         return uri
 
-    def getXML(self):
+    def getXML(self, tag):
         '''URLをGETして天気に関するXMLを取得'''
         res = requests.get(self.generateURL())
-        print(res.text)
+        root = ET.fromstring(res.text)
+        # XPathにはXMLの名前空間を含める必要あり
+        xpath = './/{http://olp.yahooapis.jp/ydf/1.0}' + tag
+
+        for string in root.findall(xpath):
+            print(string.tag)
+            print(string.text)
+        return root
 
     def main(self):
         '''ここに手順を書く'''
-        self.getXML()
+        response_date = self.getXML('Date')
+        print(response_date)
 
 if __name__ == '__main__':
     application_id = 'アプリケーションID'
