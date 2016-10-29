@@ -44,7 +44,9 @@ class yolp():
 
     def main(self):
         '''ここに手順を書く'''
-        response_date = self.getXML('Date')
+        # response_field = [気象情報の区分, 日付と時刻, 降水強度[mm/h]]
+        response_field = ['Type', 'Date', 'Rainfall']
+        response_date = self.getXML(response_field[1])
         print(response_date)
 
 if __name__ == '__main__':
