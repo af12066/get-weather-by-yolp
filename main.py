@@ -7,16 +7,30 @@ import xml.etree.ElementTree as ET
 class yolp():
     '''YOLPに関するクラス'''
 
-    def __init__(self, id):
+    def __init__(self, appid, location):
         '''初期化'''
-        self.appid = id
+        self.appid = appid
+        self.location = location
         self.main()
 
     def setCoordinates(self):
         '''緯度・経度の設定'''
-        self.__longitude = 139.900620
-        self.__latitude = 35.785166
-        return str(self.__longitude) + ',' + str(self.__latitude)
+        coordinates = {
+                'toyosu': {
+                    'lat_deg': 35.654559,
+                    'lng_deg': 139.796384
+                    },
+                'matsudo': {
+                    'lat_deg': 35.785168,
+                    'lng_deg': 139.900644
+                    },
+                'shinjuku': {
+                    'lat_deg': 35.690559,
+                    'lng_deg': 139.699574
+                    }
+                }
+        return str(coordinates[self.location]['lng_deg']) + ',' + \
+                str(coordinates[self.location]['lat_deg'])
 
     def generateURL(self):
         '''リクエストURLの生成'''
@@ -51,4 +65,5 @@ class yolp():
 
 if __name__ == '__main__':
     application_id = 'アプリケーションID'
-    yolp(application_id)
+    region = 'matsudo'
+    yolp(application_id, region)
